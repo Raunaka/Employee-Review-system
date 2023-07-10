@@ -1,42 +1,26 @@
-const express = require('express'); // requiring express, 
-const port = 8000; // assigning port, so that I can try and test as this post,
+const express = require('express'); 
+const port = 8000; 
 const app = express(); 
-
-// requiring express-ejs-layout, it will help in rendering the page.
 const expressLayout = require('express-ejs-layouts');
-
-// requring DataBase
 const db = require('./config/database');
-
 const bodyParser = require('body-parser');
-
-// Creating session
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
-
-// requiring mongo-store, so that we can use the existing user even after server start
 const MongoStore = require('connect-mongo');
 
-// they are used for showing action notifications
+
 const flash = require('connect-flash'); 
 const flashMiddleWare = require('./config/middleware');
-
-// For getting the output from req.body(it will parse the upcoming request to String or Arrays).
 app.use(bodyParser.urlencoded({extended:false}));
-// For using the file in assets folder.
 app.use(express.static('./assets'));
-
-// Setting up the view engine
 app.set('view engine','ejs');
 app.set('views','./views');
-
 app.use(expressLayout);
 
 // mongo store is used to store the session cookie in the db 
 app.use(session({
     name: "Employee R S",
-    // change secret during before deployment in production 
     secret: "1234",
     saveUninitialized: false,
     resave: false,
